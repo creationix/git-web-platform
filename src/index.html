@@ -1,42 +1,56 @@
 <!doctype html>
 <html>
 <head>
-<script src="jsgit.js"></script>
-<script>
-
-  // Create a new in-memory database
-  var db = jsgit.db("test");
-  var repo, remote;
-  db.init(onInit);
-
-  function onInit(err) {
-    if (err) throw err;
-    // Wrap it in git logic
-    repo = jsgit.repo(db);
-    console.log(repo);
-    // Create a wrapper to a remote repository
-    remote = jsgit.remote("git://github.com/creationix/conquest.git");
-    console.log(remote);
-    // Clone the remote repo to te local db.
-    var opts = {
-      onProgress: onProgress,
-      deline: true
-    };
-    repo.fetch(remote, opts, onDone);
-  }
-
-  function onProgress(progress) {
-    console.log(progress);
-  }
-
-  function onDone(err) {
-    if (err) throw err;
-    console.log("Done");
-  }
-
-</script>
+<script src="jsgit.min.js"></script>
 </head>
 <body>
-  Look at the console for output.
+<h1>JS-Git Browser Test Page</h1>
+<p>You must serve this page using the included node server that proxies websocket connections out to real git servers.</p>
+<script>
+
+var repo, remote;
+var url = prompt("Enter the git url to a small repo",
+                 "git://github.com/creationix/conquest.git");
+// Create a wrapper to a remote repository
+var remote = jsgit.remote(url);
+console.log(remote);
+var name = url.substr(url.lastIndexOf("/") + 1);
+// Create a new in-memory database
+var db = jsgit.db(name);
+console.log(db);
+// Wrap it in git logic
+var repo = jsgit.repo(db);
+console.log(repo);
+var element;
+// Initialize the database
+db.init(onInit);
+
+function onInit(err) {
+  if (err) throw err;
+  // Clone the remote repo to te local db.
+  onProgress("Fetching updates for or cloning " + url + "\n");
+  repo.fetch(remote, {
+    onProgress: onProgress,
+    deline: true
+  }, onDone);
+}
+
+function onProgress(progress) {
+  if (!element || progress[progress.length - 1] === "\n") {
+    element = document.createElement("p");
+    document.body.appendChild(element);
+  }
+  element.textContent = progress.trim();
+}
+
+function onDone(err) {
+  if (err) {
+    onProgress(err.stack + "\n");
+    throw err;
+  }
+  onProgress("Done!\n");
+}
+
+</script>
 </body>
 </html>
