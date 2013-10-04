@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+<script src="jsgit.js"></script>
+<script>
+
+  // Create a new in-memory database
+  var db = jsgit.db("test");
+  var repo, remote;
+  db.init(onInit);
+
+  function onInit(err) {
+    if (err) throw err;
+    // Wrap it in git logic
+    repo = jsgit.repo(db);
+    console.log(repo);
+    // Create a wrapper to a remote repository
+    remote = jsgit.remote("git://github.com/creationix/conquest.git");
+    console.log(remote);
+    // Clone the remote repo to te local db.
+    var opts = {
+      onProgress: onProgress,
+      deline: true
+    };
+    repo.fetch(remote, opts, onDone);
+  }
+
+  function onProgress(progress) {
+    console.log(progress);
+  }
+
+  function onDone(err) {
+    if (err) throw err;
+    console.log("Done");
+  }
+
+</script>
+</head>
+</html>

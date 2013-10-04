@@ -7,9 +7,17 @@
   "license": "MIT",
   "devDependencies": {
     "tim-task": "~0.1.0",
-    "git-memdb": "~0.2.0",
+    "git-memdb": "~0.3.0",
+    "git-localdb": "~0.1.0",
     "git-net": "~0.0.3",
-    "js-git": "~0.5.2"
+    "git-zlib": "~0.1.0",
+    "js-git": "~0.5.2",
+    "git-sha1": "~0.1.0",
+    "websocket-tcp-client": "~0.1.0",
+    "git-http": "~0.1.0",
+    "base64-js": "~0.0.4",
+    "to-utf8": "~0.0.1",
+    "send": "~0.1.4",
+    "ws": "~0.4.31"
   }
 }
-
