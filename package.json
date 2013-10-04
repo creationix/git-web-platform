@@ -1,0 +1,15 @@
+{
+  "name": "git-web-platform",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A repository of pre-built js-git libraries for webpages.",
+  "author": "Tim Caswell <tim@creationix.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "tim-task": "~0.1.0",
+    "git-memdb": "~0.2.0",
+    "git-net": "~0.0.3",
+    "js-git": "~0.5.2"
+  }
+}
+
